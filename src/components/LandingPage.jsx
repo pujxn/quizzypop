@@ -2,6 +2,7 @@ import { useState } from "react";
 import JoinGameBox from "@/components/JoinGameBox";
 import CreateGameBox from "@/components/CreateGameBox";
 
+
 const LandingPage = () => {
 
     const [mode, setMode] = useState("");
