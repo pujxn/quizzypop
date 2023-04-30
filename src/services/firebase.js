@@ -30,15 +30,9 @@ const addGameToDb = async (gameId) => {
 
 const checkGameExists = async (gameId) => {
     const q = query(collection(db, "games"), where("gameId", "==", gameId));
-    // console.log(q);
     try {
         const querySnapshot = await getDocs(q);
-        // console.log(querySnapshot.docs);
-        // querySnapshot.forEach((item) => {
-        //     console.log(item.data());
-        // })
         return (querySnapshot.docs.length == 0) ? false : true;
-
     }
     catch (e) {
         console.log(e);

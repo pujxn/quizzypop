@@ -1,8 +1,16 @@
-import LandingPage from "@/components/LandingPage";
+import { Routes, Route } from "react-router-dom"
+import LandingPage from "@/routes/LandingPage";
+import Layout from "@/components/Layout";
+import Game from "@/routes/Game";
 
 const App = () => {
     return (
-        <LandingPage />
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<LandingPage />} />
+                <Route path="game" element={<Game />} />
+            </Route>
+        </Routes>
     )
 }
 

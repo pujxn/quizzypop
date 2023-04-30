@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { checkGameExists } from "@/services/firebase";
+import { useNavigate } from "react-router-dom";
 
 const JoinGameBox = () => {
-
+    const navigate = useNavigate();
     const [gameIdFieldVal, setGameIdFieldVal] = useState("");
     const [validGameEntered, setValidGameEntered] = useState(false);
 
     const handlFormSubmit = (e) => {
         e.preventDefault();
-        checkGameExists(gameIdFieldVal).then((result => setValidGameEntered(result)));
+        checkGameExists(gameIdFieldVal).then(result => {
+            !result && setValidGameEntered(result);
+            result && navigate("/game");
+        });
         // setValidGameEntered();
     }
 
