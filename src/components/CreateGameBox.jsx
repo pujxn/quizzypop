@@ -17,7 +17,7 @@ const CreateGameBox = () => {
     }, [currentGameId]);
 
     useEffect(() => {
-        gameStarted && navigate(`/game/${currentGameId}`);
+        gameStarted && navigate(`/game/${currentGameId}`, { state: { "gameId": currentGameId } });
     }, [gameStarted])
 
     return (

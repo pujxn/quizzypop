@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { checkGameExists } from "@/services/firebase";
+import { checkGameExists, updateJoiningPlayer } from "@/services/firebase";
 import { useNavigate } from "react-router-dom";
 
 const JoinGameBox = () => {
@@ -12,6 +12,7 @@ const JoinGameBox = () => {
         checkGameExists(gameIdFieldVal).then(result => {
             !result && setErrorMessage("Please enter a valid game");
             result && navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
+            updateJoiningPlayer(gameIdFieldVal);
         });
     }
 
