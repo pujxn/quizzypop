@@ -11,7 +11,7 @@ const JoinGameBox = () => {
         e.preventDefault();
         checkGameExists(gameIdFieldVal).then(result => {
             !result && setErrorMessage("Please enter a valid game");
-            result && navigate(`/game/${gameIdFieldVal}`);
+            result && navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
         });
     }
 
