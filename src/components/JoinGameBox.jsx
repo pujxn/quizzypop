@@ -5,15 +5,14 @@ import { useNavigate } from "react-router-dom";
 const JoinGameBox = () => {
     const navigate = useNavigate();
     const [gameIdFieldVal, setGameIdFieldVal] = useState("");
-    const [validGameEntered, setValidGameEntered] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handlFormSubmit = (e) => {
         e.preventDefault();
         checkGameExists(gameIdFieldVal).then(result => {
-            !result && setValidGameEntered(result);
-            result && navigate("/game");
+            !result && setErrorMessage("Please enter a valid game");
+            result && navigate(`/game/${gameIdFieldVal}`);
         });
-        // setValidGameEntered();
     }
 
     return (
@@ -22,9 +21,8 @@ const JoinGameBox = () => {
                 <input type="text" value={gameIdFieldVal} onChange={(e) => setGameIdFieldVal(e.target.value)} />
                 <button onClick={handlFormSubmit}>Join game</button>
             </form>
-            {validGameEntered ? <p>Congratulations on joining the game!</p> : <p>Try with a valid game ID</p>}
+            {errorMessage != "" && <p>{errorMessage}</p>}
         </>
-
     )
 }
 
