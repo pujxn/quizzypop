@@ -7,7 +7,6 @@ const GameContainer = () => {
     return (
         <>
             {(gameId && slug && slug.trim() != "") ? <Outlet /> : <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>}
-
         </>
 
     )

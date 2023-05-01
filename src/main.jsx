@@ -18,6 +18,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App />
       </Router>
     </Auth0Provider>
-
   </React.StrictMode>
+
 )

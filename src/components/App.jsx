@@ -8,14 +8,14 @@ import NotMatch from "@/routes/NotMatch";
 const App = () => {
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" component={<Layout />}>
                 <Route index element={<LandingPage />} />
                 <Route path="game" element={<GameContainer />}>
                     <Route path=":slug" element={<GamePage />} />
                 </Route>
                 <Route path="*" element={<NotMatch />} />
             </Route>
-        </Routes>
+        </Routes >
     )
 }
 
