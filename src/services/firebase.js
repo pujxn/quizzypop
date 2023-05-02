@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { collection, addDoc, getFirestore, query, where, getDocs, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { collection, getFirestore, query, where, getDocs, doc, onSnapshot, updateDoc, setDoc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBZuM6QyMkTnhA9a1Wsq06G_HzggMUgNvo",
@@ -14,14 +14,23 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const addGameToDb = async (gameId) => {
+    const collectionRef = collection(db, "games");
     try {
-        await addDoc(collection(db, "games"), {
+        await setDoc(doc(collectionRef, gameId), {
             gameId: gameId
         })
     } catch (e) {
         console.log(e);
     }
 }
+
+// const addQuestionsToDb = async (gameId) => {
+//     try {
+//         await 
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
 const checkGameExists = async (gameId) => {
     const q = query(collection(db, "games"), where("gameId", "==", gameId));
@@ -35,19 +44,19 @@ const checkGameExists = async (gameId) => {
 }
 
 
-const getDocIdFromGameId = async (gameId) => {
-    const q = query(collection(db, "games"), where("gameId", "==", gameId));
-    try {
-        const querySnapshot = await getDocs(q);
-        let queryId = "";
-        querySnapshot.forEach((doc) => {
-            queryId = doc.id;
-        });
-        return queryId;
-    } catch (e) {
-        console.log(e);
-    }
-}
+// const getDocIdFromGameId = async (gameId) => {
+//     const q = query(collection(db, "games"), where("gameId", "==", gameId));
+//     try {
+//         const querySnapshot = await getDocs(q);
+//         let queryId = "";
+//         querySnapshot.forEach((doc) => {
+//             queryId = doc.id;
+//         });
+//         return queryId;
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
 
 const listenForJoiner = (gameId, wrapperFn) => {
@@ -59,16 +68,17 @@ const listenForJoiner = (gameId, wrapperFn) => {
     //         queryId = doc.id;
     //     })
 
-    let docId = "";
+    // let docId = "";
 
-    getDocIdFromGameId(gameId).then(result => {
-        console.log("IN HEREEE", result)
-        docId = result;
-        onSnapshot(doc(db, "games", docId), querySnap => {
-            console.log(querySnap.data());
-            querySnap.data().joiningPlayer && wrapperFn(true);
-        })
+    // getDocIdFromGameId(gameId).then(result => {
+    // console.log("IN HEREEE", result)
+    // docId = result;
+    onSnapshot(doc(db, "games", gameId), querySnap => {
+        console.log(querySnap.data());
+        querySnap.data().joiningPlayer && wrapperFn(true);
     })
+    // }
+    // )
 
     // try {
 
@@ -79,16 +89,31 @@ const listenForJoiner = (gameId, wrapperFn) => {
     // }
 }
 
-const updateJoiningPlayer = (gameId) => {
+const updateRecord = async (gameId, field, val) => {
     console.log("HMM")
-    let docId = "";
-    getDocIdFromGameId(gameId).then(async (result) => {
-        docId = result;
-        console.log("YOOOHOOO", result)
-        await updateDoc(doc(db, "games", docId), {
-            "joiningPlayer": "pujan"
-        })
+    // let docId = "";
+    // getDocIdFromGameId(gameId).then(async (result) => {
+    // docId = result;
+    // console.log("YOOOHOOO", result)
+    await updateDoc(doc(db, "games", gameId), {
+        [field]: val
     })
+    // })
 }
 
-export { addGameToDb, checkGameExists, listenForJoiner, updateJoiningPlayer };
+
+const getRecordDetails = async (gameId, field) => {
+
+    const docRef = doc(db, "games", gameId);
+
+    try {
+        const docSnap = await getDoc(docRef);
+        console.log("Docsnap data for Qs", docSnap.data());
+        return docSnap.data()[field];
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+export { addGameToDb, checkGameExists, listenForJoiner, updateRecord, getRecordDetails };

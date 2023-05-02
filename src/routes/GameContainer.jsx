@@ -6,7 +6,7 @@ const GameContainer = () => {
     const gameId = location.state?.gameId;
     return (
         <>
-            {(gameId && slug && slug.trim() != "") ? <Outlet /> : <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>}
+            {(gameId && slug && slug.trim() != "") ? <Outlet context={gameId} /> : <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>}
         </>
 
     )

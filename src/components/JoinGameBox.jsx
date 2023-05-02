@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { checkGameExists, updateJoiningPlayer } from "@/services/firebase";
+import { checkGameExists, updateRecord } from "@/services/firebase";
 import { useNavigate } from "react-router-dom";
 
 const JoinGameBox = () => {
@@ -10,9 +10,47 @@ const JoinGameBox = () => {
     const handlFormSubmit = (e) => {
         e.preventDefault();
         checkGameExists(gameIdFieldVal).then(result => {
-            !result && setErrorMessage("Please enter a valid game");
-            result && navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
-            result && updateJoiningPlayer(gameIdFieldVal);
+            if (result) {
+                navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
+                updateRecord(gameIdFieldVal, "joiningPlayer", "pujan");
+
+                let sessionToken = "";
+
+                fetch("https://opentdb.com/api_token.php?command=request")
+                    .then(
+                        res => res.json()
+                    )
+                    .catch((e) => {
+                        console.log(e);
+                    })
+                    .then(res => {
+                        // console.log(res)
+                        sessionToken = res.token;
+                        // console.log("Session Token", sessionToken)
+                        // return res;
+                    })
+                    .then(
+                        res =>
+                            fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
+
+                    ).
+                    then(
+                        res => res.json()
+                    )
+                    .catch((e) => {
+                        console.log(e);
+                    })
+                    .then(
+                        res => {
+                            updateRecord(gameIdFieldVal, "questions", [...res.results]);
+                        }
+                    )
+
+            }
+            else {
+                setErrorMessage("Please enter a valid game");
+            }
+
         });
     }
 
