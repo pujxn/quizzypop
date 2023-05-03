@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LoginPage from "@/routes/LoginPage";
 
 
+
 const LandingPage = () => {
 
     const { logout, user, isLoading, isAuthenticated } = useAuth0();

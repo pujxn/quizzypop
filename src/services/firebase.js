@@ -41,7 +41,7 @@ const listenForJoiner = (gameId, wrapperFn) => {
 
     onSnapshot(doc(db, "games", gameId), querySnap => {
         // console.log(querySnap.data());
-        querySnap.data().joiningPlayer && wrapperFn(true);
+        (querySnap.data().joiningPlayer && querySnap.data().questions) && wrapperFn(true);
     })
 }
 

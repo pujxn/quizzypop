@@ -11,8 +11,7 @@ const JoinGameBox = () => {
         e.preventDefault();
         checkGameExists(gameIdFieldVal).then(result => {
             if (result) {
-                navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
-                updateRecord(gameIdFieldVal, "joiningPlayer", "pujan");
+
 
                 let sessionToken = "";
 
@@ -31,7 +30,7 @@ const JoinGameBox = () => {
                     })
                     .then(
                         res =>
-                            fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
+                            fetch(`https://opentdb.com/api.php?amount=2&token=${sessionToken}`)
 
                     ).
                     then(
@@ -43,6 +42,8 @@ const JoinGameBox = () => {
                     .then(
                         res => {
                             updateRecord(gameIdFieldVal, "questions", [...res.results]);
+                            navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
+                            updateRecord(gameIdFieldVal, "joiningPlayer", "pujan");
                         }
                     )
 

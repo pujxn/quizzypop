@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
+import QuestionContainer from "@/components/QuestionContainer";
 
 const GamePage = () => {
 
     const gameId = useOutletContext();
-    // console.log("GAME IDDDD", gameId)
-
     const [isLoading, setIsLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
 
@@ -14,50 +13,11 @@ const GamePage = () => {
     useEffect(() => {
         getRecordDetails(gameId, "questions")
             .then(res => {
+                console.log(res);
                 setQuestions([...res]);
                 setIsLoading(false);
             })
     }, []);
-
-    // useEffect(() => {
-    //     let sessionToken = "";
-
-    //     fetch("https://opentdb.com/api_token.php?command=request")
-    //         .then(
-    //             res => res.json()
-    //         )
-    //         .catch((e) => {
-    //             console.log(e);
-    //         })
-    //         .then(res => {
-    //             // console.log(res)
-    //             sessionToken = res.token;
-    //             // console.log("Session Token", sessionToken)
-    //             // return res;
-    //         })
-    //         .then(
-    //             res =>
-    //                 fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
-
-    //         ).
-    //         then(
-    //             res => res.json()
-    //         )
-    //         .catch((e) => {
-    //             console.log(e);
-    //         })
-    //         .then(
-    //             res => {
-    //                 setQuestions([...res.results]);
-    //                 setIsLoading(false);
-    //             }
-    //         )
-    // }, [])
-
-
-    // console.log(questions);
-
-
     if (isLoading) {
         return <p>Loading...</p>
     }
@@ -65,8 +25,9 @@ const GamePage = () => {
     return (
         <>
             {questions.map((ele, idx) => {
-                let questionHTMLText = new DOMParser().parseFromString(ele.question, "text/html");
-                return <p key={idx}> {questionHTMLText.documentElement.textContent}</p>
+                // let questionHTMLText = new DOMParser().parseFromString(ele.question, "text/html");
+                // return <p key={idx}> {questionHTMLText.documentElement.textContent}</p>
+                return <QuestionContainer key={idx} questionObject={ele} />
             })}
         </>
     )
