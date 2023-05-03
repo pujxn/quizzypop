@@ -5,7 +5,7 @@ import { useOutletContext } from "react-router-dom";
 const GamePage = () => {
 
     const gameId = useOutletContext();
-    console.log("GAME IDDDD", gameId)
+    // console.log("GAME IDDDD", gameId)
 
     const [isLoading, setIsLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
@@ -55,7 +55,8 @@ const GamePage = () => {
     // }, [])
 
 
-    console.log(questions);
+    // console.log(questions);
+
 
     if (isLoading) {
         return <p>Loading...</p>
@@ -63,9 +64,10 @@ const GamePage = () => {
 
     return (
         <>
-            {questions.map((ele, idx) =>
-                <p key={idx}>{ele.question}</p>
-            )}
+            {questions.map((ele, idx) => {
+                let questionHTMLText = new DOMParser().parseFromString(ele.question, "text/html");
+                return <p key={idx}> {questionHTMLText.documentElement.textContent}</p>
+            })}
         </>
     )
 }

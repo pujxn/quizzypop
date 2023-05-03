@@ -24,13 +24,6 @@ const addGameToDb = async (gameId) => {
     }
 }
 
-// const addQuestionsToDb = async (gameId) => {
-//     try {
-//         await 
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
 
 const checkGameExists = async (gameId) => {
     const q = query(collection(db, "games"), where("gameId", "==", gameId));
@@ -44,61 +37,20 @@ const checkGameExists = async (gameId) => {
 }
 
 
-// const getDocIdFromGameId = async (gameId) => {
-//     const q = query(collection(db, "games"), where("gameId", "==", gameId));
-//     try {
-//         const querySnapshot = await getDocs(q);
-//         let queryId = "";
-//         querySnapshot.forEach((doc) => {
-//             queryId = doc.id;
-//         });
-//         return queryId;
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
-
-
 const listenForJoiner = (gameId, wrapperFn) => {
-    // const q = query(collection(db, "games"), where("gameId", "==", gameId));
-    // try {
-    //     const querySnapshot = await getDocs(q);
-    //     let queryId = "";
-    //     querySnapshot.forEach((doc) => {
-    //         queryId = doc.id;
-    //     })
 
-    // let docId = "";
-
-    // getDocIdFromGameId(gameId).then(result => {
-    // console.log("IN HEREEE", result)
-    // docId = result;
     onSnapshot(doc(db, "games", gameId), querySnap => {
-        console.log(querySnap.data());
+        // console.log(querySnap.data());
         querySnap.data().joiningPlayer && wrapperFn(true);
     })
-    // }
-    // )
-
-    // try {
-
-    // }
-
-    //     catch (e) {
-    //     console.log(e);
-    // }
 }
 
 const updateRecord = async (gameId, field, val) => {
-    console.log("HMM")
-    // let docId = "";
-    // getDocIdFromGameId(gameId).then(async (result) => {
-    // docId = result;
-    // console.log("YOOOHOOO", result)
+    // console.log("HMM")
+
     await updateDoc(doc(db, "games", gameId), {
         [field]: val
     })
-    // })
 }
 
 
@@ -108,7 +60,7 @@ const getRecordDetails = async (gameId, field) => {
 
     try {
         const docSnap = await getDoc(docRef);
-        console.log("Docsnap data for Qs", docSnap.data());
+        // console.log("Docsnap data for Qs", docSnap.data());
         return docSnap.data()[field];
     }
     catch (e) {
