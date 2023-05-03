@@ -10,7 +10,7 @@ const QuestionContainer = ({ questionObject }) => {
     return (
         <>
             <QuestionText question={questionHTMLText.documentElement.textContent} />
-            <QuestionOptions options={[questionObject["correct_answer"], ...questionObject["incorrect_answers"]]} />
+            <QuestionOptions options={[questionObject["correct_answer"], ...questionObject["incorrect_answers"]]} correctAnswer={questionObject["correct_answer"]} />
         </>
     )
 }
