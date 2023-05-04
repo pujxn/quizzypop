@@ -30,7 +30,7 @@ const JoinGameBox = () => {
                     })
                     .then(
                         res =>
-                            fetch(`https://opentdb.com/api.php?amount=2&token=${sessionToken}`)
+                            fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
 
                     ).
                     then(
