@@ -68,4 +68,14 @@ const getRecordDetails = async (gameId, field) => {
     }
 }
 
-export { addGameToDb, checkGameExists, listenForJoiner, updateRecord, getRecordDetails };
+const addCreatorAnswered = async (gameId, questionNumber) => {
+    try {
+        await updateDoc(doc(db, "games", gameId), {
+            [`questions.${questionNumber}.creatorAnswered`]: true
+        })
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export { addGameToDb, checkGameExists, listenForJoiner, updateRecord, getRecordDetails, addCreatorAnswered };

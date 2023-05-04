@@ -5,9 +5,11 @@ import QuestionContainer from "@/components/QuestionContainer";
 
 const GamePage = () => {
 
-    const gameId = useOutletContext();
+    const { gameId } = useOutletContext();
     const [isLoading, setIsLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
+    const [questionNumber, setQuestionNumber] = useState(1);
+
 
 
     useEffect(() => {
@@ -23,13 +25,12 @@ const GamePage = () => {
     }
 
     return (
-        <>
-            {questions.map((ele, idx) => {
-                // let questionHTMLText = new DOMParser().parseFromString(ele.question, "text/html");
-                // return <p key={idx}> {questionHTMLText.documentElement.textContent}</p>
-                return <QuestionContainer key={idx} questionObject={ele} />
-            })}
-        </>
+        // <>
+        //     {questions.map((ele, idx) => {
+        //         return <QuestionContainer key={idx} questionObject={ele} />
+        //     })}
+        // </>
+        <QuestionContainer questionObject={questions} currentQuestion={questionNumber} />
     )
 }
 

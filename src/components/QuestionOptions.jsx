@@ -1,6 +1,12 @@
 import { useState } from "react";
+import { updateRecord, getRecordDetails } from "@/services/firebase";
+import { useOutletContext } from "react-router-dom";
 
-const QuestionOptions = ({ options, correctAnswer }) => {
+
+const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObject }) => {
+
+    const { gameId, playerType } = useOutletContext();
+    console.log("YOOO", gameId);
 
     const [shuffledOptions, setShuffledOptions] = useState(() => options.sort((a, b) => 0.5 - Math.random()))
     const [selectedOption, setSelectedOption] = useState(-1);
@@ -24,6 +30,13 @@ const QuestionOptions = ({ options, correctAnswer }) => {
         else {
             setStyleObj(incorrectStyle);
         }
+
+        getRecordDetails(gameId, "questions").then(
+            res => updateRecord(gameId, "questions", { ...res, [currentQuestion]: { ...res[currentQuestion], [`${playerType}Answered`]: "YES" } })
+        ).catch(e => {
+            console.log(e);
+        })
+        // addCreatorAnswered(gameId, currentQuestion);
     }
 
     return (

@@ -42,7 +42,7 @@ const JoinGameBox = () => {
                     .then(
                         res => {
                             updateRecord(gameIdFieldVal, "questions", [...res.results]);
-                            navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal } });
+                            navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal, "playerType": "joiner" } });
                             updateRecord(gameIdFieldVal, "joiningPlayer", "pujan");
                         }
                     )
