@@ -32,7 +32,7 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObje
         }
 
         getRecordDetails(gameId, "questions").then(
-            res => updateRecord(gameId, "questions", { ...res, [currentQuestion]: { ...res[currentQuestion], [`${playerType}Answered`]: "YES" } })
+            res => updateRecord(gameId, "questions", Object.values({ ...res, [currentQuestion]: { ...res[currentQuestion], [`${playerType}Answered`]: true } }))
         ).catch(e => {
             console.log(e);
         })

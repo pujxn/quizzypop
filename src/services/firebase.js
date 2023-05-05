@@ -45,6 +45,15 @@ const listenForJoiner = (gameId, wrapperFn) => {
     })
 }
 
+const listenForBothAnswered = (gameId, wrapperFn) => {
+    onSnapshot(doc(db, "games", gameId), querySnap => {
+        (querySnap.data().joinerAnswered == "true" && querySnap.data().creatorAnswered == "true") && (
+            // setTimeout(() => wrapperFn(1), 1000)
+            console.log("HEYHEY", querySnap.data().joinerAnswered, querySnap.data().creatorAnswered)
+        )
+    })
+}
+
 const updateRecord = async (gameId, field, val) => {
     // console.log("HMM")
 
@@ -78,4 +87,4 @@ const addCreatorAnswered = async (gameId, questionNumber) => {
     }
 }
 
-export { addGameToDb, checkGameExists, listenForJoiner, updateRecord, getRecordDetails, addCreatorAnswered };
+export { addGameToDb, checkGameExists, listenForJoiner, updateRecord, getRecordDetails, addCreatorAnswered, listenForBothAnswered };

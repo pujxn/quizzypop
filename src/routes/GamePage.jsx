@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getRecordDetails } from "@/services/firebase";
+import { getRecordDetails, listenForBothAnswered } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 import QuestionContainer from "@/components/QuestionContainer";
 
@@ -8,7 +8,7 @@ const GamePage = () => {
     const { gameId } = useOutletContext();
     const [isLoading, setIsLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
-    const [questionNumber, setQuestionNumber] = useState(1);
+    const [questionNumber, setQuestionNumber] = useState(0);
 
 
 
@@ -18,7 +18,8 @@ const GamePage = () => {
                 console.log(res);
                 setQuestions([...res]);
                 setIsLoading(false);
-            })
+            });
+        listenForBothAnswered(gameId, setQuestionNumber)
     }, []);
     if (isLoading) {
         return <p>Loading...</p>
