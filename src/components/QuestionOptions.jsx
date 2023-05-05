@@ -3,7 +3,7 @@ import { updateRecord, getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 
 
-const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObject }) => {
+const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
 
     console.log("Options", options);
     console.log("Current Question:", currentQuestion)
@@ -39,7 +39,6 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObje
         ).catch(e => {
             console.log(e);
         })
-        // addCreatorAnswered(gameId, currentQuestion);
     }
 
     useEffect(() => {

@@ -39,24 +39,24 @@ const checkGameExists = async (gameId) => {
 
 const listenForJoiner = (gameId, wrapperFn) => {
 
-    onSnapshot(doc(db, "games", gameId), querySnap => {
-        // console.log(querySnap.data());
-        (querySnap.data().joiningPlayer && querySnap.data().questions) && wrapperFn(true);
+    const unsubscribe = onSnapshot(doc(db, "games", gameId), querySnap => {
+        (querySnap.data().joiningPlayer && querySnap.data().questions) && (
+            wrapperFn(true),
+            unsubscribe()
+        );
     })
 }
 
 const listenForBothAnswered = (gameId, currentQuestion, wrapperFn) => {
-    // console.log("In here")
-    onSnapshot(doc(db, "games", gameId), querySnap => {
+    const unsubscribe = onSnapshot(doc(db, "games", gameId), querySnap => {
         (querySnap.data().questions[currentQuestion].joinerAnswered && querySnap.data().questions[currentQuestion].creatorAnswered) && (
-            setTimeout(() => wrapperFn(prevState => prevState + 1), 1000)
-            // console.log("HEYHEY", querySnap.data().questions[currentQuestion].joinerAnswered, querySnap.data().questions[currentQuestion].creatorAnswered)
+            setTimeout(() => wrapperFn(prevState => prevState + 1), 1000),
+            unsubscribe()
         )
     })
 }
 
 const updateRecord = async (gameId, field, val) => {
-    // console.log("HMM")
 
     await updateDoc(doc(db, "games", gameId), {
         [field]: val
@@ -70,7 +70,6 @@ const getRecordDetails = async (gameId, field) => {
 
     try {
         const docSnap = await getDoc(docRef);
-        // console.log("Docsnap data for Qs", docSnap.data());
         return docSnap.data()[field];
     }
     catch (e) {

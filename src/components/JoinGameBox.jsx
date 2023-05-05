@@ -23,10 +23,7 @@ const JoinGameBox = () => {
                         console.log(e);
                     })
                     .then(res => {
-                        // console.log(res)
                         sessionToken = res.token;
-                        // console.log("Session Token", sessionToken)
-                        // return res;
                     })
                     .then(
                         res =>

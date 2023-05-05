@@ -8,7 +8,6 @@ import { useState } from "react";
 const CreateGameBox = () => {
 
     const navigate = useNavigate();
-    // const currentGameId = uuidv4();
     const [currentGameId, setCurrentGameId] = useState(uuidv4());
     const [gameStarted, setGameStarted] = useState(false);
 

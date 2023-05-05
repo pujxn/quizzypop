@@ -29,12 +29,13 @@ const GamePage = () => {
         return <p>Loading...</p>
     }
 
+    if (questionNumber == 10) {
+        return (
+            <h2>Game Over</h2>
+        )
+    }
+
     return (
-        // <>
-        //     {questions.map((ele, idx) => {
-        //         return <QuestionContainer key={idx} questionObject={ele} />
-        //     })}
-        // </>
         <QuestionContainer questionObject={questions} currentQuestion={questionNumber} />
     )
 }
