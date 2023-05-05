@@ -19,8 +19,12 @@ const GamePage = () => {
                 setQuestions([...res]);
                 setIsLoading(false);
             });
-        listenForBothAnswered(gameId, setQuestionNumber)
     }, []);
+
+    useEffect(() => {
+        listenForBothAnswered(gameId, questionNumber, setQuestionNumber)
+    }, [questionNumber])
+
     if (isLoading) {
         return <p>Loading...</p>
     }

@@ -45,11 +45,12 @@ const listenForJoiner = (gameId, wrapperFn) => {
     })
 }
 
-const listenForBothAnswered = (gameId, wrapperFn) => {
+const listenForBothAnswered = (gameId, currentQuestion, wrapperFn) => {
+    // console.log("In here")
     onSnapshot(doc(db, "games", gameId), querySnap => {
-        (querySnap.data().joinerAnswered == "true" && querySnap.data().creatorAnswered == "true") && (
-            // setTimeout(() => wrapperFn(1), 1000)
-            console.log("HEYHEY", querySnap.data().joinerAnswered, querySnap.data().creatorAnswered)
+        (querySnap.data().questions[currentQuestion].joinerAnswered && querySnap.data().questions[currentQuestion].creatorAnswered) && (
+            setTimeout(() => wrapperFn(prevState => prevState + 1), 1000)
+            // console.log("HEYHEY", querySnap.data().questions[currentQuestion].joinerAnswered, querySnap.data().questions[currentQuestion].creatorAnswered)
         )
     })
 }

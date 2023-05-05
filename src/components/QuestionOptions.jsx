@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateRecord, getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 
 
 const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObject }) => {
+
+    console.log("Options", options);
+    console.log("Current Question:", currentQuestion)
 
     const { gameId, playerType } = useOutletContext();
     console.log("YOOO", gameId);
@@ -38,6 +41,12 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion, questionObje
         })
         // addCreatorAnswered(gameId, currentQuestion);
     }
+
+    useEffect(() => {
+        setShuffledOptions(() => options.sort((a, b) => 0.5 - Math.random()));
+        setSelectedOption(-1);
+        setStyleObj({});
+    }, [options])
 
     return (
         shuffledOptions.map((ele, idx) => {
