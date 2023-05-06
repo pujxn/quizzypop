@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { updateRecord, getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
+import { increment } from "firebase/firestore";
 
 
 const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
@@ -25,14 +26,15 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
         "color": "#FFFFFF"
     }
 
-    const handleOptionClick = (e, idx) => {
-        setSelectedOption(idx);
+    const handleOptionClick = async (e, idx) => {
         if (e.target.innerHTML == correctAnswer) {
             setStyleObj(correctStyle);
+            await updateRecord(gameId, `${playerType}Score`, increment(10));
         }
         else {
             setStyleObj(incorrectStyle);
         }
+        setSelectedOption(idx);
 
         getRecordDetails(gameId, "questions").then(
             res => updateRecord(gameId, "questions", Object.values({ ...res, [currentQuestion]: { ...res[currentQuestion], [`${playerType}Answered`]: true } }))

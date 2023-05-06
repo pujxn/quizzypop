@@ -3,6 +3,7 @@ import JoinGameBox from "@/components/JoinGameBox";
 import CreateGameBox from "@/components/CreateGameBox";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginPage from "@/routes/LoginPage";
+import style from "@/styles/LandingPage.module.css"
 
 
 
@@ -11,6 +12,10 @@ const LandingPage = () => {
     const { logout, user, isLoading, isAuthenticated } = useAuth0();
 
     const [mode, setMode] = useState("");
+
+    const handleModeReset = () => {
+        setMode("");
+    }
 
     const handleJoinGame = () => {
         setMode("join");
@@ -25,19 +30,29 @@ const LandingPage = () => {
     }
 
     return (
-        <>
+        <div className={style.container}>
             {isAuthenticated ? (
-                <>
-                    <span>{user.name}</span><img src={user.picture} />
-                    <button onClick={logout}>Logout</button>
-                    {mode != "join" && <button onClick={handleJoinGame}>Join Game</button>}
-                    {mode != "create" && <button onClick={handleCreateGame}>Create Game</button>}
+                <div>
+
+                    <div className={style["avatar-container"]}>
+                        <div className={style.avatar}>
+                            <img src={user.picture} />
+                        </div>
+                        <div className={style.username}>{user.name}</div>
+                    </div>
+
+                    <button className={style["logout-button"]} onClick={logout}>Logout</button>
+                    <div className={style["button-container"]}>
+                        {mode == "" && <button className={style.button} onClick={handleJoinGame}>Join Game</button>}
+                        {mode == "" && <button className={style.button} onClick={handleCreateGame}>Create Game</button>}
+                    </div>
+
                     {
-                        (mode == "join") ? <JoinGameBox /> : (mode == "create") && <CreateGameBox />
+                        (mode == "join") ? <JoinGameBox handleModeReset={handleModeReset} /> : (mode == "create") && <CreateGameBox handleModeReset={handleModeReset} />
                     }
-                </>
+                </div>
             ) : <LoginPage />}
-        </>
+        </div>
     )
 }
 

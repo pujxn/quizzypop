@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { checkGameExists, updateRecord } from "@/services/firebase";
 import { useNavigate } from "react-router-dom";
+import style from "@/styles/JoinGameBox.module.css"
 
-const JoinGameBox = () => {
+const JoinGameBox = ({ handleModeReset }) => {
     const navigate = useNavigate();
     const [gameIdFieldVal, setGameIdFieldVal] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -16,33 +17,23 @@ const JoinGameBox = () => {
                 let sessionToken = "";
 
                 fetch("https://opentdb.com/api_token.php?command=request")
+                    .then(res => res.json()
+                    )
+                    .then(res => sessionToken = res.token
+                    )
+                    .then(res => fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
+                    )
                     .then(
                         res => res.json()
                     )
-                    .catch((e) => {
-                        console.log(e);
-                    })
-                    .then(res => {
-                        sessionToken = res.token;
-                    })
                     .then(
-                        res =>
-                            fetch(`https://opentdb.com/api.php?amount=10&token=${sessionToken}`)
-
-                    ).
-                    then(
-                        res => res.json()
+                        res => updateRecord(gameIdFieldVal, "questions", [...res.results])
                     )
-                    .catch((e) => {
-                        console.log(e);
-                    })
-                    .then(
-                        res => {
-                            updateRecord(gameIdFieldVal, "questions", [...res.results]);
-                            navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal, "playerType": "joiner" } });
-                            updateRecord(gameIdFieldVal, "joiningPlayer", "pujan");
-                        }
+                    .then(res => updateRecord(gameIdFieldVal, "joiningPlayer", "pujan")
                     )
+                    .then(res => navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal, "playerType": "joiner" } })
+                    )
+                    .catch(e => { console.log(e) });
 
             }
             else {
@@ -53,13 +44,16 @@ const JoinGameBox = () => {
     }
 
     return (
-        <>
+        <div className={style.container}>
+            <button className={style["popup-close"]} aria-label="Close" onClick={handleModeReset}><i className="material-icons">close</i></button>
+            {/* <h2>Ask Player 2 to &quot;Join game&quot; with this code:</h2><p>{currentGameId}</p> */}
             <form>
                 <input type="text" value={gameIdFieldVal} onChange={(e) => setGameIdFieldVal(e.target.value)} />
-                <button onClick={handlFormSubmit}>Join game</button>
+                <button className={style["join-btn"]} onClick={handlFormSubmit}>Join game</button>
             </form>
             {errorMessage != "" && <p>{errorMessage}</p>}
-        </>
+        </div >
+
     )
 }
 

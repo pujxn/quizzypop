@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
-import { getRecordDetails, listenForBothAnswered } from "@/services/firebase";
+import { getRecordDetails, listenForBothAnswered, updateRecord } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 import QuestionContainer from "@/components/QuestionContainer";
+import { NavLink } from "react-router-dom";
 
 const GamePage = () => {
 
-    const { gameId } = useOutletContext();
+    const { gameId, playerType } = useOutletContext();
     const [isLoading, setIsLoading] = useState(true);
     const [questions, setQuestions] = useState([]);
     const [questionNumber, setQuestionNumber] = useState(0);
+    const [joinerScore, setJoinerScore] = useState(0);
+    const [creatorScore, setCreatorScore] = useState(0);
 
 
 
@@ -19,10 +22,24 @@ const GamePage = () => {
                 setQuestions([...res]);
                 setIsLoading(false);
             });
+        updateRecord(gameId, `${playerType}Score`, 0)
+
     }, []);
 
     useEffect(() => {
-        listenForBothAnswered(gameId, questionNumber, setQuestionNumber)
+        if (questionNumber <= 9) {
+            listenForBothAnswered(gameId, questionNumber, setQuestionNumber);
+        }
+        else {
+            getRecordDetails(gameId, "joinerScore")
+                .then(res => setJoinerScore(res))
+                .catch(e => { console.log(e) });
+
+            getRecordDetails(gameId, "creatorScore")
+                .then(res => setCreatorScore(res))
+                .catch(e => { console.log(e) });
+
+        }
     }, [questionNumber])
 
     if (isLoading) {
@@ -31,7 +48,11 @@ const GamePage = () => {
 
     if (questionNumber == 10) {
         return (
-            <h2>Game Over</h2>
+            <>
+                <h2>Game Over.</h2>
+                <p>Winner: {creatorScore > joinerScore ? "Creator Wins" : (creatorScore != joinerScore ? "Joiner Wins" : "Draw")}</p>
+                <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>
+            </>
         )
     }
 
