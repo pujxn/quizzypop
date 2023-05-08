@@ -3,6 +3,7 @@ import { updateRecord, getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 import { increment } from "firebase/firestore";
 import style from "@/styles/QuestionOptions.module.css"
+import JSConfetti from "js-confetti";
 
 
 const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
@@ -30,9 +31,15 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
     const handleOptionClick = async (e, idx) => {
         if (e.target.innerHTML == correctAnswer) {
             setStyleObj(correctStyle);
+            const confetti = new JSConfetti();
+            await confetti.addConfetti();
             await updateRecord(gameId, `${playerType}Score`, increment(10));
         }
         else {
+            const confetti = new JSConfetti();
+            await confetti.addConfetti({
+                emojis: ['❌', "😭"]
+            });
             setStyleObj(incorrectStyle);
         }
         setSelectedOption(idx);
