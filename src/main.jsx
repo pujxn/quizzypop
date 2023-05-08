@@ -8,18 +8,18 @@ import "@/styles/index.css"
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
-  // <React.StrictMode>
-  <Auth0Provider
-    domain="dev-5nxmvrndnoavntp3.us.auth0.com"
-    clientId="qYOcSG98SRhJ08SdDUISFFmUgDmnQaAa"
-    authorizationParams={{
-      redirect_uri: window.location.origin
-    }}
-  >
-    <Router>
-      <App />
-    </Router>
-  </Auth0Provider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Auth0Provider
+      domain="dev-5nxmvrndnoavntp3.us.auth0.com"
+      clientId="qYOcSG98SRhJ08SdDUISFFmUgDmnQaAa"
+      authorizationParams={{
+        redirect_uri: window.location.origin
+      }}
+    >
+      <Router>
+        <App />
+      </Router>
+    </Auth0Provider>
+  </React.StrictMode>
 
 )
