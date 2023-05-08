@@ -5,6 +5,8 @@ const GameContainer = () => {
     const { slug } = useParams();
     const gameId = location.state?.gameId;
     const playerType = location.state?.playerType
+    const userName = location.state?.userName
+
     return (
         <>
             {(gameId && slug && slug.trim() != "") ? <Outlet context={{ "gameId": gameId, "playerType": playerType }} /> : <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>}
@@ -14,3 +16,4 @@ const GameContainer = () => {
 }
 
 export default GameContainer;
+

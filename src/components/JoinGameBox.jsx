@@ -3,7 +3,7 @@ import { checkGameExists, updateRecord } from "@/services/firebase";
 import { useNavigate } from "react-router-dom";
 import style from "@/styles/JoinGameBox.module.css"
 
-const JoinGameBox = ({ handleModeReset }) => {
+const JoinGameBox = ({ handleModeReset, userName }) => {
     const navigate = useNavigate();
     const [gameIdFieldVal, setGameIdFieldVal] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -29,7 +29,7 @@ const JoinGameBox = ({ handleModeReset }) => {
                     .then(
                         res => updateRecord(gameIdFieldVal, "questions", [...res.results])
                     )
-                    .then(res => updateRecord(gameIdFieldVal, "joiningPlayer", "pujan")
+                    .then(res => updateRecord(gameIdFieldVal, "joiningPlayer", userName)
                     )
                     .then(res => navigate(`/game/${gameIdFieldVal}`, { state: { "gameId": gameIdFieldVal, "playerType": "joiner" } })
                     )
@@ -48,7 +48,7 @@ const JoinGameBox = ({ handleModeReset }) => {
             <button className={style["popup-close"]} aria-label="Close" onClick={handleModeReset}><i className="material-icons">close</i></button>
             {/* <h2>Ask Player 2 to &quot;Join game&quot; with this code:</h2><p>{currentGameId}</p> */}
             <form>
-                <input type="text" value={gameIdFieldVal} onChange={(e) => setGameIdFieldVal(e.target.value)} />
+                <input placeholder="Enter game code" type="text" value={gameIdFieldVal} onChange={(e) => setGameIdFieldVal(e.target.value)} />
                 <button className={style["join-btn"]} onClick={handlFormSubmit}>Join game</button>
             </form>
             {errorMessage != "" && <p>{errorMessage}</p>}

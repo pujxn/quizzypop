@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { updateRecord, getRecordDetails } from "@/services/firebase";
 import { useOutletContext } from "react-router-dom";
 import { increment } from "firebase/firestore";
+import style from "@/styles/QuestionOptions.module.css"
 
 
 const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
@@ -53,7 +54,7 @@ const QuestionOptions = ({ options, correctAnswer, currentQuestion }) => {
         shuffledOptions.map((ele, idx) => {
             let optionHTMLText = new DOMParser().parseFromString(ele, "text/html");
             return (
-                <button disabled={selectedOption != -1} style={idx == selectedOption ? styleObj : null} onClick={(e) => handleOptionClick(e, idx)} key={idx}>{optionHTMLText.documentElement.textContent}</button>
+                <button className={style.option} disabled={selectedOption != -1} style={idx == selectedOption ? styleObj : null} onClick={(e) => handleOptionClick(e, idx)} key={idx}>{optionHTMLText.documentElement.textContent}</button>
             )
         })
     )

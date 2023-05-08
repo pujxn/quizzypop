@@ -12,6 +12,9 @@ const GamePage = () => {
     const [questionNumber, setQuestionNumber] = useState(0);
     const [joinerScore, setJoinerScore] = useState(0);
     const [creatorScore, setCreatorScore] = useState(0);
+    const [creatorName, setCreatorName] = useState("");
+    const [joinerName, setJoinerName] = useState("");
+
 
 
 
@@ -39,6 +42,14 @@ const GamePage = () => {
                 .then(res => setCreatorScore(res))
                 .catch(e => { console.log(e) });
 
+            getRecordDetails(gameId, "creator")
+                .then(res => setCreatorName(res))
+                .catch(e => { console.log(e) });
+
+            getRecordDetails(gameId, "joiner")
+                .then(res => setJoinerName(res))
+                .catch(e => { console.log(e) });
+
         }
     }, [questionNumber])
 
@@ -50,7 +61,7 @@ const GamePage = () => {
         return (
             <>
                 <h2>Game Over.</h2>
-                <p>Winner: {creatorScore > joinerScore ? "Creator Wins" : (creatorScore != joinerScore ? "Joiner Wins" : "Draw")}</p>
+                <p>Winner: {creatorScore > joinerScore ? creatorName : (creatorScore != joinerScore ? joinerName : "Draw")}</p>
                 <p>Please go to the <NavLink to="/">home page</NavLink> to create/join a game </p>
             </>
         )

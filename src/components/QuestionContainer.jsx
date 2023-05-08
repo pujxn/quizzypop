@@ -1,5 +1,6 @@
 import QuestionText from "@/components/QuestionText";
 import QuestionOptions from "@/components/QuestionOptions";
+import style from "@/styles/QuestionContainer.module.css"
 
 
 const QuestionContainer = ({ handleScoreUdpate, questionObject, currentQuestion }) => {
@@ -12,14 +13,14 @@ const QuestionContainer = ({ handleScoreUdpate, questionObject, currentQuestion 
 
 
     return (
-        <>
+        <div className={style["question-container"]}>
             <QuestionText question={questionHTMLText.documentElement.textContent} />
             <QuestionOptions
                 handleScoreUdpate={handleScoreUdpate}
                 options={[questionObject[currentQuestion]["correct_answer"], ...questionObject[currentQuestion]["incorrect_answers"]]}
                 correctAnswer={correctAnswerHTMLText.documentElement.textContent}
                 currentQuestion={currentQuestion} />
-        </>
+        </div>
     )
 }
 

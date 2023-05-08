@@ -7,14 +7,14 @@ import { useState } from "react";
 import style from "@/styles/CreateGameBox.module.css"
 
 
-const CreateGameBox = ({ handleModeReset }) => {
+const CreateGameBox = ({ handleModeReset, userName }) => {
 
     const navigate = useNavigate();
     const [currentGameId, setCurrentGameId] = useState(uuidv4());
     const [gameStarted, setGameStarted] = useState(false);
 
     useEffect(() => {
-        addGameToDb(currentGameId)
+        addGameToDb(currentGameId, userName)
             .then(res => listenForJoiner(currentGameId, setGameStarted))
             .catch(e => { console.log(e) })
     }, [currentGameId]);

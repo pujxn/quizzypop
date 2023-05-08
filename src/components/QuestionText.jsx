@@ -1,6 +1,8 @@
+import style from "@/styles/QuestionText.module.css"
+
 const QuestionText = ({ question }) => {
     return (
-        <h2>{question}</h2>
+        <h2 className={style.question}>{question}</h2>
     )
 }
 

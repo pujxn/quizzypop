@@ -13,11 +13,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const addGameToDb = async (gameId) => {
+const addGameToDb = async (gameId, creator) => {
     const collectionRef = collection(db, "games");
     try {
         await setDoc(doc(collectionRef, gameId), {
-            gameId: gameId
+            gameId: gameId,
+            creator: creator
         })
     } catch (e) {
         console.log(e);

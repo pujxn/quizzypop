@@ -48,7 +48,7 @@ const LandingPage = () => {
                     </div>
 
                     {
-                        (mode == "join") ? <JoinGameBox handleModeReset={handleModeReset} /> : (mode == "create") && <CreateGameBox handleModeReset={handleModeReset} />
+                        (mode == "join") ? <JoinGameBox userName={user.name} handleModeReset={handleModeReset} /> : (mode == "create") && <CreateGameBox userName={user.name} handleModeReset={handleModeReset} />
                     }
                 </div>
             ) : <LoginPage />}
